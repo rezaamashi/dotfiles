@@ -16,3 +16,6 @@
 [submodule "zsh-autosuggestions"]
 	path = .config/zsh/plugins/zsh-autosuggestions
 	url = git://github.com/zsh-users/zsh-autosuggestions
+[submodule "doomemacs"]
+	path = .config/doom
+	url = git@github.com:rezaamashi/doom-emacs.git
