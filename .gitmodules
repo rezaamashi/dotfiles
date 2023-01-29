@@ -1,3 +1,6 @@
 [submodule "chemacs2"]
 	path = .config/emacs
 	url = https://github.com/plexus/chemacs2.git
+[submodule "lfimg-sixel"]
+	path = .config/lf/plugins/lfimg-sixel
+	url = https://github.com/horriblename/lfimg-sixel.git
