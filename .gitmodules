@@ -19,3 +19,6 @@
 [submodule "doomemacs"]
 	path = .config/doom
 	url = git@github.com:rezaamashi/doom-emacs.git
+[submodule "emacs-capture"]
+	path = .config/chemacs/dotemacsen/capture
+	url = git@github.com:rezaamashi/emacs-capture.git
