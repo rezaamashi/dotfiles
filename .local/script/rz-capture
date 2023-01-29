@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+captureEmacs () {
+  emacsclient --create-frame \
+              --socket-name "capture" \
+              --alternate-editor="emacs --with-profile capture" \
+              --frame-parameters='(quote (name . "capture"))' \
+              --eval "(rz/org-capture-frame)"
+}
+
+captureEmacs
+
+              #--frame-parameters='(quote (name . "capture"))' \
+#case $1 in
+#  capture)
+#    captureEmacs capture
+#    ;;
+#  inbox)
+#    captureEmacs capture-inbox
+#    ;;
+#  journal)
+#    captureEmacs capture-journal
+#    ;;
+#  task)
+#    captureEmacs capture-task
+#    ;;
+#esac

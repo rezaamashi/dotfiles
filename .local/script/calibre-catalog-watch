@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+CALIBREDB="${HOME}/Documents/Calibre/metadata.db"
+CALIBREBIBTEX="${HOME}/Documents/Reza/BibTex/Zotero-mylib/CalibreBib.bib"
+
+catalogWatch() {
+    while true; do 
+      inotifywait -e modify ${CALIBREDB} &&
+      # I set this to sleep so that it can run on calibre exit
+      sleep 10 && calibredb catalog ${CALIBREBIBTEX};
+    done
+}
+
+catalogWatch
