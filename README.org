@@ -1,0 +1,78 @@
+#+TITLE: Reza's Personal dotfiles Repo
+
+* :ox: Description
+This repository is for my personal dotconfig files.
+
+Note: This repo will only contains system dotfiles as for [[https://github.com/rezaamashi/.emacs.d][Emacs]]  and [[https://github.com/rezaamashi/dwm][DWM]] has its own respective repositories.
+
+* Clone this Repo
+My dotfiles are managed using =git --bare=, No need symlinking. For better understanding on managing dotfiles this way check out [[https://www.youtube.com/watch?v=tBoLDpTWVOM][Distrotube's Youtube Video]].
+
+1. Create alias for easier management
+   #+begin_src sh
+     # For bash it'd be .bashrc
+     echo 'alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"' >> $HOME/.zshrc
+     source ~/.zshrc
+   #+end_src
+
+2. You are ready to clone
+#+begin_src sh
+  echo ".dotfiles" >> .gitignore
+  git clone --bare https://www.github.com/rezaamashi/repo.git $HOME/.dotfiles
+  dotfiles checkout
+#+end_src
+
+3. Hide Untracked files so that you could only see the things that matters
+#+begin_src sh
+  dotfiles config --local status.showUntrackedFiles no
+#+end_src
+
+* Usage example
+#+begin_src sh
+  # To manage your files
+  dotfiles status
+
+  # To add a new file
+  dotfiles add .vimrc
+  dotfiles commit -m "Add vimrc"
+
+  # And push it to your own repo
+  dotfiles remote add origin https://www.github.com/your-username/your-repo.git
+  dotfiles push origin master
+#+end_src
+
+* Or =git --bare=-ify, your own dotfiles
+#+begin_src sh
+  git init --bare $HOME/.dotfiles
+  echo 'alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"' >> $HOME/.zshrc
+  source ~/.zshrc
+  dotfiles config --local status.showUntrackedFiles no
+#+end_src
+
+* Extra Tip for =magit= users
+If you use =magit= for version control management, you would need to set up special function to manage =git --bare= repositories. Here is my setup for my dotfiles, add this to your =init.el=:
+#+begin_src emacs-lisp
+  (setq bare_git_dir (concat "--git-dir=" (expand-file-name "~/.dotfiles")))
+  (setq bare_work_tree (concat "--work-tree=" (expand-file-name "~")))
+
+  ;; use maggit on git bare repos like dotfiles repos, don't forget to change `bare-git-dir' and `bare-work-tree' to your needs
+  (defun rz/magit-status-dotfiles-bare ()
+    "set --git-dir and --work-tree in `magit-git-global-arguments' to `bare-git-dir' and `bare-work-tree' and calls `magit-status'"
+    (interactive)
+    (require 'magit-git)
+    (add-to-list 'magit-git-global-arguments bare_git_dir)
+    (add-to-list 'magit-git-global-arguments bare_work_tree)
+    (call-interactively 'magit-status))
+
+  ;; if you use `rz/magit-status-bare' you cant use `magit-status' on other other repos you have to unset `--git-dir' and `--work-tree'
+  ;; use `rz/magit-status' insted it unsets those before calling `magit-status'
+  (defun rz/magit-status ()
+    "removes --git-dir and --work-tree in `magit-git-global-arguments' and calls `magit-status'"
+    (interactive)
+    (require 'magit-git)
+    (setq magit-git-global-arguments (remove bare_git_dir magit-git-global-arguments))
+    (setq magit-git-global-arguments (remove bare_work_tree magit-git-global-arguments))
+    (call-interactively 'magit-status))
+#+end_src
+
+I bind the function =rz/magit-status-dotfiles-bare= to =SPC-G=, and =rz/magit-status= to =SPC-g=. That way I could manage my dotfiles configuration using =SPC-G=, and the usual =magit-status= using =SPC-g=.
