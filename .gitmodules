@@ -4,3 +4,6 @@
 [submodule "lfimg-sixel"]
 	path = .config/lf/plugins/lfimg-sixel
 	url = https://github.com/horriblename/lfimg-sixel.git
+[submodule "tpm"]
+	path = .config/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
