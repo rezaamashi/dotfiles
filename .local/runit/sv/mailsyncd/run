@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+[ -r ./conf ] && . ./conf
+
+notmuchNotify() {
+  notmuch new
+  if [ $? -ne 0 ]; then
+    local new_emails=$(notmuch search tag:inbox and tag:new | wc -l)
+    local unread_emails=$(notmuch search tag:inbox and tag:unread | wc -l)
+    notify-send -i emblem-mail -a "Notmuch" "You have: $new_emails new email(s) and $unread_emails unread email(s)"
+  fi
+}
+
+mailSync() {
+    while true; do 
+      echo ":: Mail sync will start in 5 minutes..."
+      sleep 300
+      echo ":: Synching mail using isync..."
+      mbsync -c $XDG_CONFIG_HOME/mbsync/mbsyncrc -a -V
+      afew --tag +new -- new
+      notmuchNotify
+      #notmuch new | xargs -I{} notify-send -a "isync" "{}"
+      echo ":: Synching mail successful"
+    done
+}
+
+cd "${HOME}" &&
+  mailSync "${OPTS:-}" 2>&1

@@ -1,0 +1,6 @@
+#!/bin/bash
+# 'usvrun' stands for 'user services run'
+# This file could be used as executable for 
+# 'runsvdir' that is placed in directory 'run'
+
+exec runsvdir "$(pwd)"/run

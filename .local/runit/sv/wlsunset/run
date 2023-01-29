@@ -1,0 +1,9 @@
+#!/bin/sh
+
+[ -r ./conf ] && . ./conf
+
+if [ $XDG_SESSION_TYPE = wayland ]; then
+	exec wlsunset ${OPTS:-} 2>&1
+else
+	env SVDIR=$HOME/.local/runit/run sv down wlsunset
+fi

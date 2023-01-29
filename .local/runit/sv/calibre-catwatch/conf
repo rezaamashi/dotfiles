@@ -1,0 +1,15 @@
+# -*- mode:sh; -*-
+
+# Varibles
+USER=muna
+HOME=/home/${USER}
+XDG_RUNTIME_DIR=/run/user/1000/
+CALIBRE_ICON_PATH=/usr/share/icons/hicolor/16x16/apps/calibre-gui.png
+
+# Additional command line arguments for emacs(1).
+OPTS=""
+
+# Setting this to 1 enables logging, any other value - disables.
+LOGGING_ENABLE=1
+# The directory will be created for you, if logging is enabled.
+LOG_DIR="$HOME/.cache/log/calibre-catwatch"

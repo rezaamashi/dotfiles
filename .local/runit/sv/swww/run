@@ -1,0 +1,29 @@
+#!/bin/sh
+
+[ -r ./conf ] && . ./conf
+
+function launchswww() {
+	if [ $(pidof swww) ] 
+	then 
+	  echo "killing swww"
+	  exec swww kill
+	else
+	  echo "no swww pid found"
+	fi
+	if [ -e '${XDG_RUNTIME_DIR}/swww.socket' ]
+	then
+	  echo "swww socket exist, removing..."
+	  rm $XDG_RUNTIME_DIR/swww.socket
+	else
+	  echo "swww socket not exist"
+	fi
+	# Sleep is necessary to wait the previous process finished
+	sleep 3
+	exec swww init "${OPTS:-}" 2>&1
+}
+
+if [ "$XDG_SESSION_TYPE" = wayland ]; then
+  launchswww
+else
+	env SVDIR="$HOME"/.local/runit/run sv down swww
+fi

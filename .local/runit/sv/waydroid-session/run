@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Wait for the waydroid-container daemon to start
+# sv check "/run/runit/service/waydroid-container/" > /dev/null || exit 1
+
+[ -r ./conf ] && . ./conf
+
+if [ $XDG_SESSION_TYPE=wayland ]; then
+	exec /usr/bin/waydroid session start ${OPTS:-} 2>&1
+else
+	env SVDIR=$HOME/.local/runit/run sv down waydroid-session
+fi

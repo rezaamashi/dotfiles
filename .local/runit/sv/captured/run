@@ -1,0 +1,15 @@
+#!/bin/sh
+export XDG_RUNTIME_DIR=/run/user/1000
+
+notification_start() {
+	notify-send -i ${EMACS_ICON_PATH:-} -a Emacs "Starting server"
+}
+
+notification_success() {
+	notify-send -i ${EMACS_ICON_PATH:-} -a Emacs "Server is started"
+}
+
+[ -r ./conf ] && . ./conf
+
+cd $HOME &&
+	exec emacs ${OPTS:-} 2>&1

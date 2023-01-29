@@ -1,0 +1,10 @@
+# -*- mode: sh; -*-
+
+# Additional command line arguments for redshift(1).
+# Location Surabaya
+OPTS='-l -7.24 -L 112.75'
+
+# Setting this to 1 enables logging, any other value - disables.
+LOGGING_ENABLE=0
+# The directory will be created for you, if logging is enabled.
+LOG_DIR="$HOME/.cache/log/wlsunset"

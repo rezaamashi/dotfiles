@@ -1,0 +1,10 @@
+# -*- mode: sh; -*-
+
+# Additional command line arguments for swww(1).
+# Keeps the daemon on runtime shell
+OPTS='--no-daemon'
+
+# Setting this to 1 enables logging, any other value - disables.
+LOGGING_ENABLE=1
+# The directory will be created for you, if logging is enabled.
+LOG_DIR="$HOME/.cache/log/swww"

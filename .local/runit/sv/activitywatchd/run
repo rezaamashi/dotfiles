@@ -1,0 +1,8 @@
+#!/bin/sh
+export XDG_RUNTIME_DIR=/run/user/1000
+
+[ -r ./conf ] && . ./conf
+
+cd $HOME &&
+  sleep 30;
+	exec aw-qt "${OPTS:-}" 2>&1

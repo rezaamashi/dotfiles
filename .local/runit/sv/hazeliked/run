@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+# Origins
+DOWNLOAD_DIR="${HOME}/Download"
+TORRENT_DIR="${HOME}/Download/Torrent"
+
+# Targets
+DOCUMENTS_DIR="$HOME/Download/Document/"
+PICTURE_DIR="$HOME/Download/Picture/"
+VIDEO_DIR="$HOME/Download/Video/"
+MUSIC_DIR="$HOME/Download/Music/"
+DATA_DIR="$HOME/Download/Data/"
+BOOK_DIR="$HOME/Download/Book/"
+ANDROID_DIR="$HOME/Download/Android/"
+COMPRESSED_DIR="$HOME/Download/Compressed/"
+DISKIMAGE_DIR="$HOME/Download/DiskImage/"
+
+# Extensions
+DOCUMENT_EXT=("pdf" "doc" "docx" "ppt" "pptx" "xls" "xlsx" "txt")
+PICTURE_EXT=("jpg" "jpeg" "gif" "png" "svg" "psd")
+VIDEO_EXT=("mp4" "mkv" "mov")
+MUSIC_EXT=("mp3" "flac" "opus" "aac")
+DATA_EXT=("json" "csv")
+BOOK_EXT=("epub" "djvu" "azw3")
+ANDROID_EXT=("apk")
+COMPRESSED_EXT=("zip" "tar" "tar.gz" "rar")
+DISKIMAGE_EXT=("img" "iso")
+EXTENSIONS=( "${DOCUMENT_EXT[@]}" "${PICTURE_EXT[@]}" "${VIDEO_EXT[@]}" "${MUSIC_EXT[@]}" "${DATA_EXT[@]}" "${BOOK_EXT[@]}" "${ANDROID_EXT[@]}" "${COMPRESSED_EXT[@]}" "${DISKIMAGE_EXT[@]}")
+
+# I need to perfect this function for a more compact main function
+fileMove() {
+  #echo ".${DOCUMENT_EXT[@]} file(s) exist in ${DOWNLOAD_DIR}"
+  mv "${DOWNLOAD_DIR}"/*."${DOCUMENT_EXT[@]}" "${DOCUMENTS_DIR}"
+  #echo ".${DOCUMENT_EXT} file(s) moved to ${DOCUMENTS_DIR}"
+
+  #echo ".${PICTURE_EXT} file(s) exist in ${DOWNLOAD_DIR}"
+  mv "${DOWNLOAD_DIR}"/*."${PICTURE_EXT[@]}" "${PICTURE_DIR}"
+  #echo ".${PICTURE_EXT} file(s) moved to ${PICTURE_DIR}"
+
+  # echo ".${VIDEO_EXT} file(s) exist in ${DOWNLOAD_DIR}"
+  mv "${DOWNLOAD_DIR}"/*."${VIDEO_EXT[@]}" "${VIDEO_DIR}"
+  # echo ".${VIDEO_EXT} file(s) moved to ${VIDEO_DIR}"
+
+  # echo ".${MUSIC_EXT} file(s) exist in ${DOWNLOAD_DIR}"
+  mv "${DOWNLOAD_DIR}"/*."${MUSIC_EXT[@]}" "${MUSIC_DIR}"
+  # echo ".${MUSIC_EXT} file(s) moved to ${MUSIC_DIR}"
+
+  # echo ".${DATA_EXT} file(s) exist in ${DOWNLOAD_DIR}"
+  mv "${DOWNLOAD_DIR}"/*."${DATA_EXT[@]}" "${DATA_DIR}"
+  # echo ".${DATA_EXT} file(s) moved to ${DATA_DIR}"
+
+  # echo ".${BOOK_EXT} file(s) exist in ${DOWNLOAD_DIR}"
+  mv "${DOWNLOAD_DIR}"/*."${BOOK_EXT[@]}" "${BOOK_DIR}"
+  # echo ".${BOOK_EXT} file(s) moved to ${BOOK_DIR}"
+
+  # echo ".${ANDROID_EXT} file(s) exist in ${DOWNLOAD_DIR}"
+  mv "${DOWNLOAD_DIR}"/*."${ANDROID_EXT[@]}" "${ANDROID_DIR}"
+  # echo ".${ANDROID_EXT} file(s) moved to ${ANDROID_DIR}"
+
+  # echo ".${COMPRESSED_EXT} file(s) exist in ${DOWNLOAD_DIR}"
+  mv "${DOWNLOAD_DIR}"/*."${COMPRESSED_EXT[@]}" "${COMPRESSED_DIR}"
+  # echo ".${COMPRESSED_EXT} file(s) moved to ${COMPRESSED_DIR}"
+
+  # echo ".${DISKIMAGE_EXT} file(s) exist in ${DOWNLOAD_DIR}"
+  mv "${DOWNLOAD_DIR}"/*."${DISKIMAGE_EXT[@]}" "${DISKIMAGE_DIR}"
+  # echo ".${DISKIMAGE_EXT} file(s) moved to ${DISKIMAGE_DIR}"
+}
+
+# Main
+fileCheckAndMove() {
+  for EXT in "${EXTENSIONS[@]}"
+  do
+    if ls "${DOWNLOAD_DIR}"/*."${EXT}"; then
+      mv "${DOWNLOAD_DIR}"/*."${DOCUMENT_EXT[@]}" "${DOCUMENTS_DIR}"
+      mv "${DOWNLOAD_DIR}"/*."${PICTURE_EXT[@]}" "${PICTURE_DIR}"
+      mv "${DOWNLOAD_DIR}"/*."${VIDEO_EXT[@]}" "${VIDEO_DIR}"
+      mv "${DOWNLOAD_DIR}"/*."${MUSIC_EXT[@]}" "${MUSIC_DIR}"
+      mv "${DOWNLOAD_DIR}"/*."${DATA_EXT[@]}" "${DATA_DIR}"
+      mv "${DOWNLOAD_DIR}"/*."${BOOK_EXT[@]}" "${BOOK_DIR}"
+      mv "${DOWNLOAD_DIR}"/*."${ANDROID_EXT[@]}" "${ANDROID_DIR}"
+      mv "${DOWNLOAD_DIR}"/*."${COMPRESSED_EXT[@]}" "${COMPRESSED_DIR}"
+      mv "${DOWNLOAD_DIR}"/*."${DISKIMAGE_EXT[@]}" "${DISKIMAGE_DIR}"
+    else
+      echo "no .${EXT} files in ${DOWNLOAD_DIR}"
+    fi
+  done
+}
+#1> /dev/null 2&>1
+
+# Watcher function
+downloadDirWatch() {
+    while true; do 
+      inotifywait -e create,delete,modify "${CALIBRELIB}" &&
+      fileCheckAndMove
+    done
+}
+
+#[ -r ./conf ] && . ./conf
+#
+cd ${HOME} &&
+  # downloadDirWatch "${OPTS:-}" 2>&1
+  fileCheckAndMove 2>&1
