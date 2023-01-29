@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Org-Protocol
+Comment=Intercept calls from emacsclient to trigger custom actions
+Keywords=org-protocol;
+Exec=emacsclient %u
+Type=Application
+Icon=emacs
+Terminal=false
+Categories=System;
+MimeType=x-scheme-handler/org-protocol;
