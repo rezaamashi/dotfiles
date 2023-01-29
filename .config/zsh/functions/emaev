@@ -1,0 +1,6 @@
+#!/bin/sh
+
+emaev() {
+    emacsclient -s /run/user/1000/emacs/muna-emacsd -c -n --eval "(emacs-everywhere)" ||
+    zenity --error --no-wrap --text 'Failed to connect to the Emacs daemon!' >/dev/null
+}

@@ -1,0 +1,16 @@
+#!/bin/sh
+SOUNDPACK=windowslonghorn
+SOUND_NAME=winLH_SystemAsterisk.wav
+NO_SERVER_SOUND="${XDG_CONFIG_HOME}"/sounds/"${SOUNDPACK}"/"${SOUND_NAME}"
+
+no_server() {
+	zenity --error --no-wrap --text "Unable to Connect to Emacs 'server' daemon" >/dev/null &
+		mpv --no-config --no-video "${NO_SERVER_SOUND}" >/dev/null
+}
+
+emacs() {
+	emacsclient -s /run/user/1000/emacs/server -c -n ||
+		no_server
+}
+
+emacs

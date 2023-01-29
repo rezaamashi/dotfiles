@@ -1,0 +1,242 @@
+#!/bin/sh
+
+### Variables
+privilege="doas"
+
+### Basic Aliases ################################
+### Applications #################################
+alias v="nvim -u ~/.config/nvim/init.lua"
+alias nvim="nvim -u ~/.config/nvim/init.lua"
+alias m="mpv"
+alias f="~/.config/lf/plugins/lfimg-sixel/lfrun"
+alias h="htop"
+alias zar="zaread"
+alias z="sioyek"
+alias i="imv"
+alias youtube-dl="yt-dlp"
+#alias l="echo ':: Showing files in `pwd`' && exa -alFh --color=always --icons"
+alias l="exa -alFh --color=always --icons --group-directories-first"
+alias ls="exa --icons --group-directories-first"
+# list number of files and delete 1 topmost lines - since we use exa
+alias lwc="expr $(ls -alFh | wc -l) - 1"
+#alias lwc="ls -alFh | wc -l"
+alias n="fastfetch"
+alias cat="bat"
+alias cp="cp -rv"
+## Special Execution
+alias demac="dash -c 'emacs --with-profile personal'"
+alias demacd="dash -c 'emacs --with-profile personal --daemon=server'"
+alias demacdlog="cat ~/.cache/log/emacsd/current"
+alias domac="dash -c 'emacs --with-profile doom'"
+alias domacd="dash -c 'emacs --with-profile doom --daemon=server'"
+alias domacdlog="cat ~/.cache/log/emacsd/current"
+alias dwlinstall="cd ~/.suckless/dwl/source && rm -f config.h && '$privilege' make clean install && cd -"
+alias dwminstall="cd ~/.config/suckless/dwm && ./install.sh && cd -"
+alias duv="echo 'Opening NVim with root access\n' && '$privilege' nvim"
+alias sozsh="echo ':: Sourcing .zshenv' && source ~/.zshenv && echo ':: Sourcing .zshalias' && source ~/.config/zsh/.zshalias && echo ':: Sourcing .zshrc' && source ~/.config/zsh/.zshrc"
+alias pacgre="echo 'Checking installed software\n' && pacman -Q | grep --color"
+alias pacup="echo 'Updating Packages using Pacman and Ignoring nodejs\n' && '$privilege' pacman -Syu --assume-installed=nodejs"
+alias parup="echo 'Updating Packages using Paru and Ignoring nodejs\n' && paru -Syu --assume-installed=nodejs"
+alias history="history 0"
+alias hisgre="echo 'Looking for certain command in history\n' && history | grep --color"
+alias psgre="echo 'Listing active program with grep\n' && ps aux | grep --color"
+alias lgre="echo 'Listing certain file(s) with grep\n' && ls -alFh | grep --color"
+alias untar="echo 'Untar-ing file\n' && tar -xvf"
+alias czlgre="cat ~/.config/zsh/.zshalias|rg"
+alias cdage="cd ~/org/Orgzly/"
+alias texmkdefault="latexmk -pdflatex='pdflatex -shell-escape -interaction nonstopmode' -pdf -bibtex -f"
+alias texmklua="latexmk -lualatex='lualatex -shell-escape -interaction nonstopmode' -pdf -bibtex -f"
+#alias batt="upower -i $(upower -e | grep BAT) | grep --color=never -E 'state|to full|to empty|percentage'"
+alias grub-install-mkconfig-uefi="${privilege} grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB;${privilege} grub-mkconfig -o /boot/grub/grub.cfg"
+
+### Programs ##################################
+# Docker
+alias dockexec='(){docker exec -it $1 /bin/bash;}'
+alias dockcompf='docker-compose -f'
+
+# wf-recordeer -- wayland
+alias wf-record="wf-recorder -D -f $HOME/Videos/ScreenCaptures/$(date +'Screencap-%Y%m%d%-H%M%S.mp4') && notify-send 'Screen Capture Saved'"
+
+# Cleaning ~/
+alias vale='vale --config $XDG_CONFIG_HOME/vale/config.ini'
+alias svn='svn --config-dir $XDG_CONFIG_HOME/subversion'
+alias mbsync='mbsync -c $XDG_CONFIG_HOME/mbsync/mbsyncrc -a -V'
+alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
+alias xrdb="xrdb -load ~/.config/X11/xresources"
+alias gnupg='gpg2 --homedir $XDG_DATA_HOME/gnupg'
+alias vale='vale --config $XDG_CONFIG_HOME/vale/config.ini'
+alias hledger='hledger -f ~/org/hledger/bookKeeping.journal'
+alias hledger-web='hledger-web -f ~/org/hledger/bookKeeping.journal'
+alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget-hsts"'
+
+### Directories #################################
+alias doc="cd ~/Documents"
+alias dow="cd ~/Download"
+alias dowred="cd ~/Download/Android/RedmiReza"
+alias dowkin="cd ~/Download/Android/KindleReza"
+alias trr="cd ~/Download/Torrent"
+alias vid="cd ~/Videos"
+alias mov="cd ~/Videos/Movies"
+alias ser="cd ~/Videos/Serials"
+alias cou="cd ~/Videos/Courses"
+alias mus="cd ~/Music"
+alias gam="cd ~/Games"
+alias pic="cd ~/Pictures"
+alias 41="cd ~/Documents/Reza/Academia/Undergraduate/41"
+alias r41="ranger ~/Documents/Reza/Academia/Undergraduate/41"
+alias 42="cd ~/Documents/Reza/Academia/Undergraduate/42"
+alias r42="ranger ~/Documents/Reza/Academia/Undergraduate/42"
+alias scdir="cd ~/.local/script/"
+alias rcdir="cd ~/.config/"
+## Projects
+alias pro="cd ~/Documents/Reza/Project/"
+alias web="cd ~/Documents/Reza/Project/WebDev"
+alias thes="cd ~/Documents/Reza/Thesis/thesis-org"
+alias theac="cd ~/Documents/Reza/Academia/Undergraduate/42/Thesis"
+alias ayathesdir="cd ~/Documents/Ayah"
+## Work
+alias wrk="cd ~/Documents/Reza/Work/"
+## Configs
+alias dwldir="cd ~/.config/suckless/dwl/"
+alias dwmdir="cd ~/.config/suckless/dwm"
+alias emdir="cd ~/.config/emacs"
+alias doomdir="cd ~/.config/doom"
+alias domacdir="cd ~/.config/chemacs/dotemacsen/doom"
+alias demacdir="cd ~/.config/chemacs/dotemacsen/capture"
+alias riverdir="cd ~/.config/river"
+alias hyprdir="cd ~/.config/hypr"
+alias waybardir="cd ~/.config/waybar"
+alias ewwdir="cd ~/.config/eww"
+alias psddir="cd ~/.config/psd"
+
+### Configurations ###############################
+alias dwlc="nvim ~/.suckless/dwl/config.def.h"
+alias dwmc="nvim ~/.config/suckless/dwm/config.def.h"
+alias picomc="nvim ~/.config/picom/picom.conf"
+alias polybarc="nvim ~/.config/polybar/config"
+alias spvc="nvim ~/.SpaceVim.d/init.toml"
+alias swc="nvim ~/.config/sway/config"
+alias emrc="nvim ~/.config/chemacs/dotemacsen/Reza/init.el"
+alias doomrc="nvim ~/.config/doom/config.el"
+alias zrc="nvim ~/.config/zsh/.zshrc"
+alias zal="nvim ~/.config/zsh/.zshalias"
+alias zenv="nvim ~/.zshenv"
+alias nenv="nvim ~/.config/env"
+alias riverc="nvim ~/.config/river/init"
+alias hyprc="nvim ~/.config/hypr/hyprland.conf"
+alias waybarc="nvim ~/.config/waybar/config"
+alias psdc="nvim ~/.config/psd/psd.conf"
+
+### Git ##########################################
+alias g='/usr/bin/git'
+alias gsta='/usr/bin/git status --show-stash'
+alias gl='/usr/bin/git log --color --color-moved --color-words'
+alias ga='/usr/bin/git add'
+alias gunstage='/usr/bin/git restore --staged'
+alias gcom='/usr/bin/git commit -m'
+alias gb='/usr/bin/git checkout'
+alias gcreb='/usr/bin/git branch'
+alias gdelb='/usr/bin/git branch -d'
+alias gpush='/usr/bin/git push'
+alias gpull='/usr/bin/git pull'
+alias gfetch='/usr/bin/git fetch'
+
+## Thesis Ayah
+alias ayathes='/usr/bin/git --git-dir=$HOME/Documents/Ayah/Thesis --work-tree=$HOME/Documents/Ayah/'
+## Dotfiles
+alias .='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias .s='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status --show-stash'
+alias .l='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME log --color --color-moved --color-words'
+alias .a='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add'
+alias .subadd='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME submodule add'
+alias .unstage='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME restore --staged'
+alias .c='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME commit -m'
+alias .b='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout'
+alias .creb='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch'
+alias .delb='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch -d'
+alias .push='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME push'
+alias .pull='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME pull'
+alias .fetch='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME fetch'
+alias .rmcached='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME rm --cached'
+
+################# RUNIT Services #################
+### User Services ################################
+alias ursm="echo ':: User level services' && SVDIR=$HOME/.local/runit/run rsm"
+alias ursmgre="echo ':: Checking specific user level services' && SVDIR=$HOME/.local/runit/run rsm 2>/dev/null | grep --color"
+alias usv='env SVDIR=$HOME/.local/runit/run sv'
+alias usvs='env SVDIR=$HOME/.local/runit/run sv status'
+alias usvr='env SVDIR=$HOME/.local/runit/run sv restart'
+alias usvu='env SVDIR=$HOME/.local/runit/run sv up'
+alias usvd='env SVDIR=$HOME/.local/runit/run sv down'
+alias usvdir='cd $HOME/.local/runit/sv'
+alias usvfile='(){cd $HOME/.local/runit/sv/$1 ;}'
+alias usvrmfile='(){rm -rf ~/.local/runit/sv/$1 ;}'
+alias usvrun='cd $HOME/.local/runit/run'
+alias usvlog='(){tail -f ~/.cache/log/$1/current ;}'
+alias usvlogdir='cd ~/.cache/log'
+alias usvlink='(){ln -s ~/.local/runit/sv/$1 ~/.local/runit/run/$1 ;}'
+alias usvrmlink='(){rm -rf ~/.local/runit/run/$1 ;}'
+alias usvrm='(){rm -rf ~/.local/runit/sv/$1 ~/.local/runit/run/$1 ;}'
+### Root Services ################################
+alias drsm="echo ':: System level services' && '$privilege' rsm"
+alias drsmgre="echo ':: Checking specific system level service' && '$privilege' rsm 2>/dev/null | grep --color"
+alias dsv="'$privilege' sv"
+alias dsvs="'$privilege' sv status"
+alias dsvr="'$privilege' sv restart"
+alias dsvu="'$privilege' sv up"
+alias dsvd="'$privilege' sv down"
+alias dsvdir="cd /etc/runit/sv"
+alias dsvfile='(){cd /etc/runit/sv/$1 ;}'
+alias dsvrmfile="(){'$privilege' rm -rf /etc/runit/sv/$1 ;}"
+alias dsvrun='cd /run/runit/service'
+alias dsvlink="(){'$privilege' ln -s /etc/runit/sv/$1 /run/runit/service/$1 ;}"
+alias dsvrmlink="(){'$privilege' rm -rf /run/runit/service/$1 ;}"
+alias dsvrm="(){'$privilege' rm -rf /etc/runit/sv/$1 /run/runit/service/$1 ;}"
+
+### Global Aliases ################################
+
+### Suffix Aliases ################################
+
+### Alias Inbox ###################################
+# This command allow user to add alias directly from terminal (still need ability to add quote)
+alias add-alias='(){echo -e "alias $1=\x27$2\x27" >> ~/.config/zsh/.zshalias && source ~/.config/zsh/.zshalias ;}'
+alias add-global-alias='(){echo -e "alias -g $1=\x27$2\x27" >> ~/.config/zsh/.zshalias && source ~/.config/zsh/.zshalias ;}'
+alias add-suffix-alias='(){echo -e "alias -s $2=\x27$1\x27" >> ~/.config/zsh/.zshalias && source ~/.config/zsh/.zshalias && echo -e "\n:: Remember to add \x7B...\x7D when refactoring multiple suffix into one alias\n" ;}'
+alias emacs-suffix-alias='(){echo -e "alias -s $1=\x27emacsclient -nw\x27" >> ~/.config/zsh/.zshalias && source ~/.config/zsh/.zshalias && echo -e "\n:: Remember to add \x7B...\x7D when refactoring multiple suffix into one alias\n" ;}'
+# This part would always need refactoring
+alias -s org='emacsclient -nw'
+alias -s md='emacsclient -nw'
+alias -s h='emacsclient -nw'
+alias -s c='emacsclient -nw'
+alias -s json='emacsclient -nw'
+alias -s java='emacsclient -nw'
+alias -s yaml='emacsclient -nw'
+alias -s py='emacsclient -nw'
+alias emacsterm='emacsclient -nw'
+alias -s lisp='emacsclient -nw'
+alias cdu='cd ../'
+alias -s el='emacsclient -nw'
+alias orgdir='cd ~/org/'
+alias agendadir='cd ~/org/Orgzly'
+alias roamdir='cd ~/org/roam'
+alias rofi-cache='rm ~/.cache/rofi-drun-desktop.cache'
+alias git-get-remote='git remote get-url origin'
+alias git-get-remote-clip='git remote get-url origin | wl-copy'
+alias -s toml='emacsclient -nw'
+alias -s conf='emacsclient -nw'
+alias hyprscripts='cd ~/.config/hypr/scripts'
+alias ricedir='cd ~/.config/hypr/rices/$RICETHEME'
+alias envgre='env | grep --color'
+alias tree='exa -alFhT --icons'
+alias ricevar='cat ~/.config/hypr/rice.cfg && env | grep 'RICETHEME''
+alias diff='colordiff'
+alias scrdir='cd ~/.local/script'
+alias pingle='ping google.com'
+alias pingdit='ping reddit.com'
+alias bw='bw --session $(gpg2 -d --no-tty --for-your-eyes-only ~/.config/Bitwarden\ CLI/session.gpg)'
+alias bwdef='/usr/bin/bw'
+alias mirrorstop5='rankmirrors -v -n 5 /etc/pacman.d/mirrorlist'
+alias mirrorstop5-pacnew='rankmirrors -v -n 5 /etc/pacman.d/mirrorlist.pacnew'
+alias pacinfo-remote='pacman -Sii'
+alias pacinfo='pacman -Qi'
+alias cdp="echo 'Returning to previous directory...\n' && cd -"

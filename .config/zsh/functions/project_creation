@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+PROJECT_DIR="${HOME}/Documents/Reza/Project"
+
+function project_init() {
+    git init
+    touch README.org
+    touch .projectile
+    git add .
+    git commit -m "Initial commit"
+    gh repo create $2 --private --source=. --remote=upstream
+    git push -u origin master
+    emacs .
+}
+
+function create() {
+    # cd "${SCRIPT_DIR}"
+    # python3 create_project.py $1
+    mkdir -p "${PROJECT_DIR}/$1/$2"
+    cd "${PROJECT_DIR}/$1/$2"
+    project_init
+}
