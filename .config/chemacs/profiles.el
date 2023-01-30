@@ -6,4 +6,4 @@
 ("doom" . ((user-emacs-directory . "~/.config/chemacs/dotemacsen/doom")
 	   (server-name . "server")
 	   (env . (("DOOMDIR" . "~/.config/doom")))
-	     ))
+	     )))
