@@ -1,0 +1,62 @@
+#!/bin/bash
+
+#1. Set the default value of each keywords in this program
+GAPS_IN_DEFAULT=5
+GAPS_OUT_DEFAULT=10
+ROUNDING_DEFAULT=10
+
+#2. Checking the value of the keyword gaps_in and gaps_out using hyprctl getoption general:<keyword>
+checking_gaps_value() {
+    local KEYWORD="general:gaps_in"
+    GAPS_IN=$(hyprctl getoption $KEYWORD | grep int | sed 's:.*\: ::')
+    # notify-send $GAPS_IN
+    local KEYWORD="general:gaps_out"
+    GAPS_OUT=$(hyprctl getoption $KEYWORD | grep int | sed 's:.*\: ::')
+    # notify-send $GAPS_OUT
+}
+
+#4. Checking the value of the keyword decoration:rounding
+checking_rounding_value() {
+    local KEYWORD="decoration:rounding"
+    ROUNDING=$(hyprctl getoption $KEYWORD | grep int | sed 's:.*\: ::')
+}
+
+#5. If the value of those options !=0
+toggling_gaps() {
+    local KEYWORD="general:gaps_in"
+    if [ $GAPS_IN -ne 0 ]; then
+        hyprctl keyword $KEYWORD 0 >/dev/null
+        # notify-send "Toggling gaps_in to 0"
+    else
+        hyprctl keyword $KEYWORD $GAPS_IN_DEFAULT >/dev/null
+        # notify-send "Toggling gaps_in to $GAPS_IN_DEFAULT"
+    fi
+
+    local KEYWORD="general:gaps_out"
+    if [ $GAPS_OUT -ne 0 ]; then
+        hyprctl keyword $KEYWORD 0 >/dev/null
+        # notify-send "Toggling gaps_out to 0"
+        notify-send -a "Hyprland" "Disabling Gaps"
+    else
+        hyprctl keyword $KEYWORD $GAPS_OUT_DEFAULT >/dev/null
+        # notify-send "Toggling gaps_out to $GAPS_OUT_DEFAULT"
+        notify-send -a "Hyprland" "Enabling Gaps"
+    fi
+}
+
+toggling_rounding() {
+    local KEYWORD="decoration:rounding"
+    if [ $ROUNDING -ne 0 ]; then
+        hyprctl keyword $KEYWORD 0 >/dev/null
+        # notify-send "Toggling rounding to 0"
+    else
+        hyprctl keyword $KEYWORD $ROUNDING_DEFAULT >/dev/null
+        # notify-send "Toggling rounding to $ROUNDING_DEFAULT"
+    fi
+}
+
+# Execution
+checking_gaps_value
+checking_rounding_value
+toggling_gaps
+toggling_rounding

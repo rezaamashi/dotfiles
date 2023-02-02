@@ -1,0 +1,220 @@
+#!/usr/bin/env bash
+
+# Author 			-  amashi
+# Source 			-  https://github.com/amashi/dotfiles
+# Maintainer 		-  rezaamashi@protonmail.com
+
+# Original Work
+#  Author : z0mbi3
+#  Github : https://github.com/gh0stzk/dotfiles
+
+HYPRDIR="${HOME}/.config/hypr"
+NVIMDIR="${HOME}/.config/nvim/init.lua"
+# bardir="$HOME/.config/hypr/rices/$RICETHEME/bar"
+export RICETHEME="$(<${HOME}/.config/hypr/rice.cfg)"
+
+function launch() {
+	local running
+	running="$(pidof "$1")"
+	[ "$running" ] && kill -9 $(pidof $1)
+	eval "$* &"
+}
+
+# This function is being ran by runit user service
+function launchswww() {
+	if [ $(pidof swww) ] 
+	then 
+	  echo "killing swww"
+	  swww kill
+	else
+	  echo "no swww pid found"
+	fi
+	if [ -e '${XDG_RUNTIME_DIR}/swww.socket' ]
+	then
+	  echo "swww socket exist, removing..."
+	  rm $XDG_RUNTIME_DIR/swww.socket
+	else
+	  echo "swww socket not exist"
+	fi
+	# Sleep is necessary to wait the previous process finished
+	sleep 3 && swww init
+}
+
+function WallChanger() {
+	local wallimage="$(find "$HOME/.config/hypr/rices/$RICETHEME/assets/wallpapers/" -type f | shuf -n 1)"
+	if [ $(pidof swww) ]; then
+	  sleep 5 && swww img $wallimage
+	else
+	  sleep 60 && swww img $wallimage && notify-send "Applying wallpaper"
+	fi
+}
+
+function killeww() {
+	if [[ $(pidof eww) ]]; then
+		pkill eww
+	fi
+}
+
+function killwaybar() {
+	if [[ $(pidof waybar) ]]; then
+		pkill waybar
+	fi
+}
+
+function ReloadEmacs() {
+	local config="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/rices/$RICETHEME/emacstheme.el"
+	local config_theme="$(grep 'setq doom-theme' "$config")"
+	local runtime_theme="$(grep 'load-theme' "$config")"
+	if [ -f "$HOME/.config/doom/elisp/theme.el" ]; then
+		echo "$config_theme" >$HOME/.config/doom/elisp/theme.el
+		sleep 5 && emacsclient -s "$XDG_RUNTIME_DIR/emacs/server" -e "$runtime_theme" >/dev/null
+	else
+		mkdir -p $HOME/.config/doom/elisp/ && touch $HOME/.config/doom/elisp/theme.el
+		echo "$config_theme" >$HOME/.config/doom/elisp/theme.el
+		sleep 5 && emacsclient -s "$XDG_RUNTIME_DIR/emacs/server" -e "$runtime_theme" >/dev/null
+	fi
+}
+
+function ResetGTK3() {
+	local config="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-3.0/settings.ini"
+	if [ ! -f "$config" ]; then exit 1; fi
+
+	local gnome_schema="org.gnome.desktop.interface"
+	local gtk_theme="$(grep 'gtk-theme-name' "$config" | sed 's/.*\s*=\s*//')"
+	local icon_theme="$(grep 'gtk-icon-theme-name' "$config" | sed 's/.*\s*=\s*//')"
+	local cursor_theme="$(grep 'gtk-cursor-theme-name' "$config" | sed 's/.*\s*=\s*//')"
+	local font_name="$(grep 'gtk-font-name' "$config" | sed 's/.*\s*=\s*//')"
+	gsettings set "$gnome_schema" gtk-theme "$gtk_theme"
+	gsettings set "$gnome_schema" icon-theme "$icon_theme"
+	gsettings set "$gnome_schema" cursor-theme "$cursor_theme"
+	gsettings set "$gnome_schema" font-name "$font_name"
+}
+
+function ReloadGUI() {
+	# qt5ct
+	if [ -f "$HOME/.config/qt5ct/qt5ct.conf" ]; then
+		cat $HOME/.config/hypr/rices/$RICETHEME/qt5ct/qt5ct.conf >$HOME/.config/qt5ct/qt5ct.conf
+	else
+		mkdir -p $HOME/.config/qt5ct/ && touch $HOME/.config/qt5ct/qt5ct.conf
+		cat $HOME/.config/hypr/rices/$RICETHEME/qt5ct/qt5ct.conf >$HOME/.config/qt5ct/qt5ct.conf
+	fi
+
+	# GTK 2.0
+	if [ -f "$HOME/.config/gtk-2.0/gtkrc" ]; then
+		cat $HOME/.config/hypr/rices/$RICETHEME/gtk-2.0/gtkrc >$HOME/.config/gtk-2.0/gtkrc
+	else
+		mkdir -p $HOME/.config/gtk-2.0/ && touch $HOME/.config/gtk-2.0/gtkrc
+		cat $HOME/.config/hypr/rices/$RICETHEME/gtk-2.0/gtkrc >$HOME/.config/gtk-2.0/gtkrc
+	fi
+
+	# GTK 3.0
+	if [ -f "$HOME/.config/gtk-3.0/settings.ini" ]; then
+		cat $HOME/.config/hypr/rices/$RICETHEME/gtk-3.0/settings.ini >$HOME/.config/gtk-3.0/settings.ini
+		ResetGTK3
+	else
+		mkdir -p $HOME/.config/gtk-3.0/ && touch $HOME/.config/gtk-3.0/settings.ini
+		cat $HOME/.config/hypr/rices/$RICETHEME/gtk-3.0/settings.ini >$HOME/.config/gtk-3.0/settings.ini
+		ResetGTK3
+	fi
+}
+
+function ResetAlacritty() {
+	if [[ $(pidof alacritty) ]]; then
+		killall -USR1 alacritty
+	fi
+}
+
+function ReloadAlacritty() {
+	if [ -f "$HOME/.config/alacritty/alacritty.yml" ]; then
+		cat $HOME/.config/hypr/rices/$RICETHEME/alacritty.yml >$HOME/.config/alacritty/alacritty.yml
+		ResetAlacritty
+	else
+		mkdir -p $HOME/.config/alacritty/ && touch $HOME/.config/alacritty/alacritty.yml
+		cat $HOME/.config/hypr/rices/$RICETHEME/alacritty.yml >$HOME/.config/alacritty/alacritty.yml
+		ResetAlacritty
+	fi
+}
+
+function SetHyprlandConf() {
+	hyprctl keyword general:border_size "$1"         # int px => 1
+	hyprctl keyword general:col.active_border "$2"   # str color =>  0x66ee1111
+	hyprctl keyword general:col.inactive_border "$3" # str color => 0x66333333
+	hyprctl keyword general:gaps_in "$4"             # int px => 5
+	hyprctl keyword general:gaps_out "$5"            # int px => 10
+	hyprctl keyword master:no_gaps_when_only "$6"    # bool => 0
+	hyprctl keyword decoration:rounding "$7"         # int px => 10
+	hyprctl keyword decoration:blur "$8"             # bool => 1
+	hyprctl keyword decoration:blur_size "$9"        # int px => 3
+	hyprctl keyword decoration:blur_passes "${10}"   # int => 1
+	# hyprctl keyword decoration:inactive_opacity $10
+	hyprctl keyword decoration:drop_shadow "${11}"  # bool => 0
+	hyprctl keyword decoration:shadow_range "${12}" # int => 4
+	hyprctl keyword decoration:col.shadow "${13}"
+	hyprctl keyword decoration:col.shadow_inactive "${14}"
+	hyprctl keyword decoration:shadow_offset "${15}"
+	hyprctl keyword decoration:dim_inactive "${16}"
+	hyprctl keyword decoration:dim_strength "${17}"
+	hyprctl keyword animations:enabled "${18}" # bool => 1
+	hyprctl keyword animations:animation "windows,${19}"
+	hyprctl keyword animations:animation "border,${20}"
+	hyprctl keyword animations:animation "fade,${21}"
+	hyprctl keyword animations:animation "workspaces,${22}"
+}
+
+function SetupRice() {
+
+	local nil=0 # Fallback to default
+	case $RICETHEME in
+
+		starter)
+
+			SetHyprlandConf 1 "0x66ee1111" "0x66333333" 5 10 0 10 1 3 1 $nil $nil $nil $nil $nil $nil $nil 1 "1,7,default" "1,10,default" "1,10,default" "1,6,default" &
+
+			killeww
+			launch eww -c $HOME/.config/hypr/rices/$RICETHEME/bar/eww daemon && eww -c $HOME/.config/hypr/rices/$RICETHEME/bar/eww --restart open bar &
+			launch dunst -config $HOME/.config/hypr/rices/$RICETHEME/dunstrc &
+			;;
+		gruvbox)
+
+			SetHyprlandConf 3 "0x66ee1111" "0x66333333" 5 10 0 10 1 3 1 $nil $nil $nil $nil $nil $nil $nil 1 "1,7,default" "1,10,default" "1,10,default" "1,6,default" &
+
+      
+			killeww
+			#launchswww
+      sed -i "s/\(colorscheme \)\(.*\)/\1\"doom-gruvbox\"/" "$NVIMDIR"
+      #sleep 3 && sh -c "${HOME}/.config/hypr/scripts/eww/bar/toggle_bar"
+      launch waybar -c ~/.config/hypr/rices/gruvbox/bar/waybar/config -s ~/.config/hypr/rices/gruvbox/bar/waybar/style.css 
+			launch dunst -config "${HOME}/.config/hypr/rices/gruvbox/dunstrc" &
+      WallChanger
+			;;
+		catppuccin-dark)
+
+			SetHyprlandConf 3 "0xfff5c2e7" "0xff45475a" 5 10 0 10 0 3 1 1 100 "0x33000000" "0x22000000" 5 $nil $nil 1 "1,7,default" "1,10,default" "1,10,default" "1,6,default" &
+
+			launch dunst -config $HOME/.config/hypr/rices/catppuccin-dark/dunstrc &
+			killeww
+      #launchswww
+      sed -i "s/\(colorscheme \)\(.*\)/\1\"catppuccin-frappe\"/" "$NVIMDIR"
+      launch waybar -c ~/.config/hypr/rices/catppuccin-dark/bar/waybar/config -s ~/.config/hypr/rices/catppuccin-dark/bar/waybar/style.css 
+			;;
+	esac
+}
+
+ReloadGUI
+ReloadEmacs
+ReloadAlacritty
+WallChanger
+# function AutoStartApps() {
+# 	# Kill any running instances of bspc to prevent multiple
+# 	# instances of "workspaces" script in eww rices to run at once
+
+# }
+
+# case $1 in
+# 	setupRice)
+# 		SetupRice
+# 		;;
+# 	wallChanger)
+# 		WallChanger
+# 		;;
+# esac

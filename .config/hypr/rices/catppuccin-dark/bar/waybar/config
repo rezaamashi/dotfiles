@@ -1,0 +1,99 @@
+{
+    "layer": "top",
+    "position": "right",
+    "spacing": "4px",
+    "modules-left": ["custom/rofi","pulseaudio","backlight"],
+    "modules-right": ["temperature","cpu","memory","battery","custom/separator","tray","clock","custom/power"],
+    "sway/workspaces": {
+    	"all-outputs": true,
+	"format": "",
+	"persistent_workspaces": {
+	   "1": [],
+	   "2": [],
+	   "3": [],
+	   "4": [],
+	   "5": []
+	}
+    },
+    "custom/power": {
+        "format": "⏻",
+        //"on-click": "loginctl poweroff"
+        "on-click": "~/.config/hypr/scripts/powermenu/poweroff"
+    },
+    "clock": {
+        //"interval": 60,
+        "format": "{:%H\n%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click": "emacsclient -c -e '(org-agenda \"\" \"j\")'"
+    },
+    "custom/separator": {
+	"format": "──────"
+    },
+    "cpu": {
+        //"interval": 1,
+        "format": "{icon0} {icon1}",
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+        "on-click": "alacritty -e 'htop'"
+    },
+    "memory": {
+        "format": "{}\n{icon}",
+        "format-icons": [""],
+        "on-click": "alacritty -e 'htop'"
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
+        "critical-threshold": 80,
+        "format-critical": "{temperatureC}°C",
+        "format": ""
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{icon}",
+        //     "format-icons": ["", "", "", "", "", "", "", "", ""]
+        "format-icons": ["🌙", "⛅", "🌤", ""]
+    },
+    "battery": {
+        //"on-click": "alacritty -e 'batt'",
+        "states": {
+            "warning": 30,
+            "critical": 20 
+        },
+        "format": "{icon}",
+
+        //"format-charging": "🔌",
+        //"format-plugged": "🔌",
+        "format-charging": "",
+        "format-plugged": "",
+        // "format-good": "", // An empty format will hide the module
+        "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "custom/rofi": {
+	"format": "",
+	"on-click": "rofi -no-lazy-grab -drun-use-desktop-cache -show drun -terminal alacritty -theme ~/.config/hypr/rices/$RICETHEME/rofi/launcher.rasi"
+    },
+  "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        //"format": "{icon} {format_source}",
+        "format": "{volume}\n{icon}",
+        "format-bluetooth": "{volume}\n{icon}",
+        "format-muted": "{volume}\n",
+        "format-bluetooth-muted": "{icon}\n",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pulseaudio-control togmute",
+        "on-click-right": "pavucontrol"
+    },
+}

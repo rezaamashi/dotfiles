@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# wallimage=$(shuf -en1 ~/.config/hypr/rices/$RICETHEME/*.webp)
+wallimage=$(find "$HOME/.config/hypr/rices/$RICETHEME/assets/wallpapers/" -type f | shuf -n 1)
+swww img $wallimage --transition-type center

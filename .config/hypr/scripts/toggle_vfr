@@ -1,0 +1,18 @@
+#!/bin/sh
+
+check_vfr_value() {
+    NO_VFR=$(hyprctl getoption misc:no_vfr | grep int | sed 's:.*\: ::')
+}
+
+toggle_vfr() {
+    if [ $NO_VFR -ne 0 ]; then
+        notify-send "Enabling VFR (default)"
+        hyprctl keyword misc:no_vfr 0
+    else
+        notify-send "Disabling VFR"
+        hyprctl keyword misc:no_vfr 1
+    fi
+}
+
+check_vfr_value
+toggle_vfr

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+NO_GAPS_WHEN_ONLY_DEFAULT=1
+
+checking_smartgaps_value() {
+    NO_GAPS_WHEN_ONLY=$(hyprctl getoption master:no_gaps_when_only | grep int | sed 's:.*\: ::')
+}
+
+toggling_no_gaps_when_only() {
+    if [ $NO_GAPS_WHEN_ONLY -ne 0 ]; then
+        notify-send -a "Hyprland" "Disabling Smartgaps"
+        hyprctl keyword master:no_gaps_when_only 0
+    else
+        notify-send -a "Hyprland" "Enabling Smartgaps"
+        hyprctl keyword master:no_gaps_when_only $NO_GAPS_WHEN_ONLY_DEFAULT
+    fi
+}
+
+checking_smartgaps_value
+toggling_no_gaps_when_only

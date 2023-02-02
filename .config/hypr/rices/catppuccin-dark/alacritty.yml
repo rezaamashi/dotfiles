@@ -1,0 +1,244 @@
+env:
+  TERM: xterm-256color
+
+window:
+  padding:
+    x: 24
+    y: 24
+
+  # Spread additional padding evenly around the terminal content.
+  dynamic_padding: true
+  # Window title
+  title: Alacritty
+
+  # Window class (Linux/BSD only):
+  class:
+    # Application instance name
+    instance: Alacritty
+    # General application class
+    general: Alacritty
+
+scrolling:
+  # Maximum number of lines in the scrollback buffer.
+  # Specifying '0' will disable scrolling.
+  history: 5000
+
+# Spaces per Tab (changes require restart)
+#
+# This setting defines the width of a tab in cells.
+#
+# Some applications, like Emacs, rely on knowing about the width of a tab.
+# To prevent unexpected behavior in these applications, it's also required to
+# change the `it` value in terminfo when altering this setting.
+#tabspaces: 8
+
+# Font configuration
+font:
+  # Normal (roman) font face
+  normal:
+    family: Iosevka
+
+    # The `style` can be specified to pick a specific face.
+    style: Regular
+
+  # Bold font face
+  bold:
+    family: Iosevka
+
+    # The `style` can be specified to pick a specific face.
+    style: Bold
+
+  # Italic font face
+  italic:
+    family: Iosevka
+
+    # The `style` can be specified to pick a specific face.
+    style: Italic
+
+  # Bold italic font face
+  bold_italic:
+    family: Iosevka
+
+    # The `style` can be specified to pick a specific face.
+    style: Bold Italic
+
+  # Point size
+  size: 9.5
+
+  # Offset is the extra space around each character. `offset.y` can be thought of
+  # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
+  offset:
+    x: 0
+    y: 0
+
+# If `true`, bold text is drawn using the bright color variants.
+draw_bold_text_with_bright_colors: true
+
+# Colors
+colors:
+    # Default colors
+    primary:
+        background: "#303446" # base
+        foreground: "#C6D0F5" # text
+        # Bright and dim foreground colors
+        dim_foreground: "#C6D0F5" # text
+        bright_foreground: "#C6D0F5" # text
+
+    # Cursor colors
+    cursor:
+        text: "#303446" # base
+        cursor: "#F2D5CF" # rosewater
+    vi_mode_cursor:
+        text: "#303446" # base
+        cursor: "#BABBF1" # lavender
+
+    # Search colors
+    search:
+        matches:
+            foreground: "#303446" # base
+            background: "#A5ADCE" # subtext0
+        focused_match:
+            foreground: "#303446" # base
+            background: "#A6D189" # green
+        footer_bar:
+            foreground: "#303446" # base
+            background: "#A5ADCE" # subtext0
+
+    # Keyboard regex hints
+    hints:
+        start:
+            foreground: "#303446" # base
+            background: "#E5C890" # yellow
+        end:
+            foreground: "#303446" # base
+            background: "#A5ADCE" # subtext0
+
+    # Selection colors
+    selection:
+        text: "#303446" # base
+        background: "#F2D5CF" # rosewater
+
+    # Normal colors
+    normal:
+        black: "#51576D" # surface1
+        red: "#E78284" # red
+        green: "#A6D189" # green
+        yellow: "#E5C890" # yellow
+        blue: "#8CAAEE" # blue
+        magenta: "#F4B8E4" # pink
+        cyan: "#81C8BE" # teal
+        white: "#B5BFE2" # subtext1
+
+    # Bright colors
+    bright:
+        black: "#626880" # surface2
+        red: "#E78284" # red
+        green: "#A6D189" # green
+        yellow: "#E5C890" # yellow
+        blue: "#8CAAEE" # blue
+        magenta: "#F4B8E4" # pink
+        cyan: "#81C8BE" # teal
+        white: "#A5ADCE" # subtext0
+
+    # Dim colors
+    dim:
+        black: "#51576D" # surface1
+        red: "#E78284" # red
+        green: "#A6D189" # green
+        yellow: "#E5C890" # yellow
+        blue: "#8CAAEE" # blue
+        magenta: "#F4B8E4" # pink
+        cyan: "#81C8BE" # teal
+        white: "#B5BFE2" # subtext1
+
+    indexed_colors:
+        - { index: 16, color: "#EF9F76" }
+        - { index: 17, color: "#F2D5CF" }
+          
+# When set to `true`, selected text will be copied to the primary clipboard.
+save_to_clipboard: true
+
+# Allow terminal applications to change Alacritty's window title.
+dynamic_title: true
+
+#cursor:
+# Cursor style
+#
+# Values for `style`:
+#   - ▇ Block
+#   - _ Underline
+#   - | Beam
+style: Block
+
+#debug:
+# Display the time it takes to redraw each frame.
+#render_timer: false
+
+# Keep the log file after quitting Alacritty.
+#persistent_logging: false
+
+# Log level
+#
+# Values for `log_level`:
+#   - None
+#   - Error
+#   - Warn
+#   - Info
+#   - Debug
+#   - Trace
+#log_level: Warn
+
+# Print all received window events.
+#print_events: false
+
+# Record all characters and escape sequences as test data.
+#ref_test: false
+
+# URL modifiers
+#
+# These are the modifiers that need to be held down for opening URLs when clicking
+# on them. The available modifiers are documented in the key binding section.
+#modifiers: None
+
+# Mouse bindings
+#
+# Mouse bindings are specified as a list of objects, much like the key
+# bindings further below.
+#
+# Each mouse binding will specify a:
+#
+# - `mouse`:
+#
+#   - Middle
+#   - Left
+#   - Right
+#   - Numeric identifier such as `5`
+#
+# - `action` (see key bindings)
+#
+# And optionally:
+#
+# - `mods` (see key bindings)
+#mouse_bindings:
+#  - { mouse: Middle, action: PasteSelection }
+
+# Key bindings
+key_bindings:
+  # (Windows, Linux, and BSD only)
+  - { key: V, mods: Control|Shift, action: Paste }
+  - { key: C, mods: Control|Shift, action: Copy }
+  - { key: Insert, mods: Shift, action: PasteSelection }
+  - { key: Key0, mods: Control, action: ResetFontSize }
+  - { key: Equals, mods: Control, action: IncreaseFontSize }
+    #- { key: Add,      mods: Control,       action: IncreaseFontSize }
+    #- { key: Subtract, mods: Control,       action: DecreaseFontSize }
+  - { key: Minus, mods: Control, action: DecreaseFontSize }
+
+  - { key: Paste, action: Paste }
+  - { key: Copy, action: Copy }
+  - { key: L, mods: Control, action: ClearLogNotice }
+  - { key: L, mods: Control, chars: "\x0c" }
+  - { key: PageUp, mods: Shift, action: ScrollPageUp, mode: ~Alt }
+  - { key: PageDown, mods: Shift, action: ScrollPageDown, mode: ~Alt }
+  - { key: Home, mods: Shift, action: ScrollToTop, mode: ~Alt }
+  - { key: End, mods: Shift, action: ScrollToBottom, mode: ~Alt }
