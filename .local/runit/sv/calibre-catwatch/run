@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-CALIBRELIB="${HOME}/Documents/Calibre"
-CALIBREDB="${CALIBRELIB}/metadata.db"
-CALIBREBIBTEX="${HOME}/Documents/Reza/BibTex/Zotero-mylib/CalibreBib.bib"
-BIBTEXFIELDS="authors,author_sort,title,title_sort,cover,formats,id,isbn,library_name,ondevice,pubdate,publisher,rating,series_index,series,size,tags,timestamp,uuid,languages,identifiers,#pages,#read,comments"
+[ -r ./conf ] && . ./conf
+
 
 catalogCreate() {
   # Only run `calibredb catalog` when Calibre is closed
@@ -33,8 +31,6 @@ caLibWatch() {
       catalogCreate
     done
 }
-
-[ -r ./conf ] && . ./conf
 
 cd "${HOME}" &&
   caLibWatch "${OPTS:-}" 2>&1

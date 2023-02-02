@@ -1,10 +1,13 @@
 # -*- mode:sh; -*-
 
 # Varibles
-USER=muna
-HOME=/home/${USER}
-XDG_RUNTIME_DIR=/run/user/1000/
-CALIBRE_ICON_PATH=/usr/share/icons/hicolor/16x16/apps/calibre-gui.png
+USER="muna"
+HOME="/home/${USER}"
+CALIBRE_ICON_PATH="/usr/share/icons/hicolor/16x16/apps/calibre-gui.png"
+CALIBRELIB="${HOME}/Documents/Calibre"
+CALIBREDB="${CALIBRELIB}/metadata.db"
+CALIBREBIBTEX="${HOME}/Documents/Reza/BibTex/Zotero-mylib/CalibreBib.bib"
+BIBTEXFIELDS="authors,author_sort,title,title_sort,cover,formats,id,isbn,library_name,ondevice,pubdate,publisher,rating,series_index,series,size,tags,timestamp,uuid,languages,identifiers,#pages,#read,comments"
 
 # Additional command line arguments for emacs(1).
 OPTS=""
