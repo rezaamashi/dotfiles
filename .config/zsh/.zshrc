@@ -47,6 +47,16 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+# For Ctrl-Backspace to delete prev word
+bindkey -M emacs '^H' backward-kill-word
+bindkey -M viins '^H' backward-kill-word
+bindkey -M vicmd '^H' backward-kill-word
+
+# For Ctrl-Delete to delete next word
+bindkey -M emacs '^[[3;5~' kill-word
+bindkey -M viins '^[[3;5~' kill-word
+bindkey -M vicmd '^[[3;5~' kill-word
+
 # themes
 source $XDG_CONFIG_HOME/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme
 
