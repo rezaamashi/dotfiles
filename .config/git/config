@@ -1,0 +1,86 @@
+[user]
+  name = Reza A'masyi
+  email = mnurrreza@gmail.com
+[core]
+  excludesfile = ~/.config/git/ignore
+  attributesfile = ~/.config/git/attributes
+# Taken from Protesilaos (check attributes file)
+[diff "lisp"]
+  xfuncname = "^(((;;;+ )|\\(|([ \t]+\\(((cl-|el-patch-)?def(un|var|macro|method|custom)|gb/))).*)$"
+[diff "org"]
+ xfuncname = "^(\\*+ +.*|#\\+title:.*)$"
+# Taken from ruediger (check attributes file)
+[diff "rust"]
+ xfuncname = "^[ \t]*(pub|)[ \t]*((fn|struct|enum|impl|trait|mod)[^;]*)$"
+[diff "rstats"]
+ xfuncname = "^([a-zA-z.]+ <- function.*)$"
+[diff "texinfo"]
+# from http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=blob;f=.gitattributes;h=c3b2926c78c939d94358cc63d051a70d38cfea5d;hb=HEAD
+ xfuncname = "^@node[ \t][ \t]*\\([^,][^,]*\\)"
+[diff "exif"]
+  binary = true
+  textconv = exiftool
+# Taken from Konfekt (check attributes file)
+[diff "pdf"]
+  binary = true
+  # textconv = pdfinfo
+  textconv = sh -c 'pdftotext -layout "$0" -enc UTF-8 -nopgbrk -q -'
+  cachetextconv = true
+[diff "djvu"]
+  binary = true
+  # textconv = pdfinfo
+  textconv = djvutxt
+  cachetextconv = true
+[diff "odt"]
+  textconv = odt2txt
+  # textconv = pandoc --standalone --from=odt --to=plain
+  binary = true
+  cachetextconv = true
+[diff "doc"]
+  # not available under Windows
+  # textconv = wvText
+  textconv = catdoc
+  binary = true
+  cachetextconv = true
+[diff "xls"]
+  textconv = in2csv
+  # textconv = xlscat -a UTF-8
+  # textconv = soffice --headless --convert-to csv
+  binary = true
+  cachetextconv = true
+[diff "ppt"]
+  textconv = catppt
+  binary = true
+  cachetextconv = true
+[diff "docx"]
+  textconv = pandoc --standalone --from=docx --to=plain
+  # textconv = sh -c 'docx2txt.pl "$0" -'
+  binary = true
+  cachetextconv = true
+[diff "xlsx"]
+  textconv = xlsx2csv
+  # textconv = xlsx2csv.py
+  # textconv = in2csv
+  # textconv = soffice --headless --convert-to csv
+  binary = true
+  cachetextconv = true
+[diff "pptx"]
+  textconv = sh -c 'pptx2md --disable_image --disable_wmf -i "$0" -o ~/.cache/git/presentation.md >/dev/null && cat ~/.cache/git/presentation.md'
+  binary = true
+  cachetextconv = true
+[diff "rtf"]
+  textconv = unrtf --text
+  binary = true
+  cachetextconv = true
+[diff "epub"]
+  textconv = pandoc --standalone --from=epub --to=plain
+  binary = true
+  cachetextconv = true
+[diff "tika"]
+  textconv = "tika --text"
+  binary = true
+  cachetextconv = true
+[diff "libreoffice"]
+  textconv = "soffice --cat"
+  binary = true
+  cachetextconv = true

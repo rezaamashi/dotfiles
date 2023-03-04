@@ -1,0 +1,62 @@
+# Plain texts
+# This and the setting in config is taken from 
+# https://gist.github.com/ruediger/5647207
+*.tex   diff=tex
+*.bib   diff=bibtex
+*.c     diff=cpp
+*.h     diff=cpp
+*.c++   diff=cpp
+*.h++   diff=cpp
+*.cpp   diff=cpp
+*.hpp   diff=cpp
+*.cc    diff=cpp
+*.hh    diff=cpp
+*.m     diff=matlab
+*.py    diff=python
+*.rb    diff=ruby
+*.php   diff=php
+*.pl    diff=perl
+*.html  diff=html
+*.xhtml diff=html
+*.f     diff=fortran
+
+*.r     diff=rstats
+*.texi* diff=texinfo
+*.rs    diff=rust
+
+# The setting in config for this is taken from 
+# https://protesilaos.com/codelog/2021-01-26-git-diff-hunk-elisp-org/
+*.lisp  diff=lisp
+*.el    diff=lisp
+*.org   diff=org
+
+# Binaries
+# This and the setting in config is taken from 
+# https://gist.github.com/Konfekt/5ece511a94a8aa118aadbbb23dab1f21
+*.pdf   diff=pdf
+*.djvu   diff=djvu
+*.png   diff=exif
+*.jpg   diff=exif
+*.jpeg  diff=exif
+*.gif   diff=exif
+
+*.odt    diff=odt
+*.odp    diff=libreoffice
+*.ods    diff=libreoffice
+
+*.doc    diff=doc
+*.xls    diff=xls
+*.ppt    diff=ppt
+
+*.docx   diff=docx
+*.xlsx   diff=xlsx
+*.pptx   diff=pptx
+
+*.rtf    diff=rtf
+
+*.epub   diff=pandoc
+*.chm    diff=tika
+*.mhtml? diff=tika
+
+*.{class,jar}  diff=tika
+*.{rar,7z,zip} diff=tika
