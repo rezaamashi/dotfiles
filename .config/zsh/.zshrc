@@ -47,15 +47,25 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-# For Ctrl-Backspace to delete prev word
-bindkey -M emacs '^H' backward-kill-word
-bindkey -M viins '^H' backward-kill-word
-bindkey -M vicmd '^H' backward-kill-word
+# Ctrl-Backspace to delete prev word and also adhere / in dir commans
+my-backward-kill-word() {
+    local WORDCHARS=${WORDCHARS/\//}
+    zle backward-kill-word
+}
+zle -N my-backward-kill-word
+bindkey -M emacs '^H' my-backward-kill-word
+bindkey -M viins '^H' my-backward-kill-word
+bindkey -M vicmd '^H' my-backward-kill-word
 
-# For Ctrl-Delete to delete next word
-bindkey -M emacs '^[[3;5~' kill-word
-bindkey -M viins '^[[3;5~' kill-word
-bindkey -M vicmd '^[[3;5~' kill-word
+# Ctrl-Delete to delete next word and also adhere / in dir commans
+my-kill-word() {
+    local WORDCHARS=${WORDCHARS/\//}
+    zle kill-word
+}
+zle -N my-kill-word
+bindkey -M emacs '^[[3;5~' my-kill-word
+bindkey -M viins '^[[3;5~' my-kill-word
+bindkey -M vicmd '^[[3;5~' my-kill-word
 
 # themes
 source $XDG_CONFIG_HOME/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme
@@ -130,3 +140,4 @@ zstyle ':completion:*' completer _complete_alias _complete _ignored
 # LazyLoad gitstatusd
 # needed by lsp-mode emacs
 POWERLEVEL9K_DISABLE_GITSTATUS=true
+GITSTATUS_LOG_LEVEL=DEBUG
